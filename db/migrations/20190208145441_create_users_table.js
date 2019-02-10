@@ -1,9 +1,9 @@
 
 exports.up = function (connection, Promise) {
   return connection.schema.createTable('users', (table) => {
-    table.string('username').primary().unique();
-    table.string('avatar_url').nullable();
-    table.string('name').nullable();
+    table.string('username').primary().unique().notNullable();
+    table.string('avatar_url').notNullable();
+    table.string('name').notNullable();
   });
 };
 

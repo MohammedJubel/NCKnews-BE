@@ -1,8 +1,15 @@
 
 exports.up = function (connection, Promise) {
-  return connection.schema.increments('comments_id').primary().notNullable();
-  connection.schema.string('author').references(users.username);
+  return connection.schema.createTable('comments', (table) => {
+    table.increments('comment_id').primary().unique().notNullable();
+    table.string('author').references('users.username');
+    table.integer('article_id').notNullable();
+    table.integer('votes').defaultTo(0);
+    table.datetime('created_at').defaultTo(connection.fn.now());
+    table.text('body');
+  });
 };
+
 
 exports.down = function (connection, Promise) {
   return connection.schema.dropTable('comments');

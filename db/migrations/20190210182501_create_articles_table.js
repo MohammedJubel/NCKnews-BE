@@ -3,7 +3,7 @@ exports.up = function (connection, Promise) {
   return connection.schema.createTable('articles', (table) => {
     table.increments('article_id').primary().unique().notNullable();
     table.string('title').notNullable();
-    table.string('body', 2500).notNullable();
+    table.text('body').notNullable();
     table.integer('votes').defaultTo(0);
     table.string('topic').references('topics.slug');
     table.string('author').references('users.username');

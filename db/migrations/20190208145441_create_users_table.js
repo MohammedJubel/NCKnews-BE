@@ -1,5 +1,6 @@
 
 exports.up = function (connection, Promise) {
+  console.log('creating users table....');
   return connection.schema.createTable('users', (table) => {
     table.string('username').primary().unique().notNullable();
     table.string('avatar_url').notNullable();
@@ -8,5 +9,5 @@ exports.up = function (connection, Promise) {
 };
 
 exports.down = function (connection, Promise) {
-  connection.schema.dropTable('users');
+  return connection.schema.dropTable('users');
 };

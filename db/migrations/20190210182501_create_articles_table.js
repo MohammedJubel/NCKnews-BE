@@ -1,7 +1,8 @@
 
 exports.up = function (connection, Promise) {
+  console.log('creating articles table....');
   return connection.schema.createTable('articles', (table) => {
-    table.increments('article_id').primary().unique().notNullable();
+    table.increments('article_id').primary();
     table.string('title').notNullable();
     table.text('body').notNullable();
     table.integer('votes').defaultTo(0);

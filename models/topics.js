@@ -1,9 +1,5 @@
-const topicsRouter = require('express').Router();
-const {
-  getTopics,
-} = require('../controller/topics');
+const connection = require('../db/connection');
 
-topicsRouter.route('/').get(getTopics);
-
-
-module.exports = topicsRouter;
+exports.fetchTopics = () => connection
+  .select('*')
+  .from('topics');

@@ -1,5 +1,5 @@
 const apiRouter = require('express').Router();
-const topicsRouter = require('./topicsRouter');
+const topicsRouter = require('./topics');
 
 
 apiRouter.use('/topics', topicsRouter);

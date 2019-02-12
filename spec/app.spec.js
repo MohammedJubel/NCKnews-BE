@@ -55,6 +55,30 @@ describe('/api', () => {
           expect(body.articles).to.be.an('array');
           expect(body.articles[0]).to.contain.keys('author', 'title', 'article_id', 'topic', 'created_at', 'votes', 'comment_count');
         }));
+      it('GET status:200 and responds with array of article filtered by username', () => request
+        .get('/api/articles?author=rogersop')
+        .expect(200)
+        .then(({ body }) => {
+          // console.log(body);
+          expect(body.articles).to.be.an('array');
+          expect(body.articles[0].author).to.equal('rogersop');
+        }));
+      it('GET status:200 and responds with array of article filtered by topic', () => request
+        .get('/api/articles?topic=cats')
+        .expect(200)
+        .then(({ body }) => {
+          console.log(body);
+          expect(body.articles).to.be.an('array');
+          expect(body.articles[0].topic).to.equal('cats');
+          expect(body.articles[0].created_at).to.equal('2002-11-19T12:21:54.171Z');
+        }));
     });
   });
 });
+
+
+// ##### Should accept queries
+//   * `author`, which filters the articles by the username value specified in the query
+//     * `topic`, which filters the articles by the topic value specified in the query
+//       * `sort_by`, which sorts the articles by any valid column(defaults to date)
+//         * `order`, which can be set to`asc` or`desc` for ascending or descending(defaults to descending)

@@ -4,3 +4,6 @@ const dbConfig = require('../knexfile');
 const connection = knex(dbConfig);
 
 module.exports = connection;
+
+
+// console.log(dbConfig)

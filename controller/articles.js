@@ -1,6 +1,6 @@
 const {
   fetchArticles,
-} = require('../models/topics');
+} = require('../models/articles');
 
 exports.getArticles = (req, res, next) => fetchArticles()
   .then((articles) => {

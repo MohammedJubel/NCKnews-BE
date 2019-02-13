@@ -11,7 +11,7 @@ articlesRouter
 articlesRouter
   .route('/:article_id')
   .get(sendArticleById);
-// .patch(patchArticleVotes)
+// .patch(patchArticleVotes);
 // .delete(deleteArticleById)
 // .all(handle405);
 

@@ -24,7 +24,10 @@ exports.insertArticle = newArticle => connection
   .returning('*');
 
 
-exports.getArticleById = ({ conditions }) => console.log(conditions)
-  || connection.select('*')
-    .from('articles')
-    .where(conditions);
+exports.getArticleById = ({ conditions }) => connection
+  .select('articles.*')
+  .from('articles')
+  .leftJoin('comments', 'comments.article_id', 'articles.article_id')
+  .groupBy('articles.article_id')
+  .count('comments.comment_id as comment_count')
+  .where(conditions);

@@ -33,7 +33,7 @@ exports.sendArticleById = (req, res, next) => {
   const { article_id } = req.params;
   // console.log(article_id, '<--- id');
   const conditions = {};
-  if (article_id) conditions.article_id = article_id;
+  if (article_id) conditions['articles.article_id'] = article_id;
   getArticleById({ conditions })
     .then(([article]) => {
       // console.log(article, '<-----controller');

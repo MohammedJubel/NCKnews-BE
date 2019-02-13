@@ -59,9 +59,9 @@ describe('/api', () => {
         .get('/api/articles')
         .expect(200)
         .then(({ body }) => {
-          // console.log(body);
+          // console.log(body.articles[0], '<------LOG');
           expect(body.articles).to.be.an('array');
-          expect(body.articles[0]).to.contain.keys('author', 'title', 'article_id', 'topic', 'created_at', 'votes', 'comment_count');
+          expect(body.articles[0]).to.contain.keys('article_id', 'title', 'body', 'votes', 'topic', 'author', 'created_at', 'comment_count');
         }));
       it('GET status:200 and responds with array of article filtered by username', () => request
         .get('/api/articles?author=rogersop')
@@ -174,7 +174,7 @@ describe('/api', () => {
           .get('/api/articles/3')
           .expect(200)
           .then(({ body }) => {
-            // console.log(body);
+            // console.log(body, '<--------BODY');
             expect(body.article).to.contain.keys(
               'article_id',
               'title',
@@ -183,6 +183,7 @@ describe('/api', () => {
               'topic',
               'author',
               'created_at',
+              'comment_count',
             );
           }));
         it('GET status:400 and responds with an article object based on the article id with the correct properties', () => request

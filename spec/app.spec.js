@@ -87,6 +87,22 @@ describe('/api', () => {
           expect(body.articles).to.be.an('array');
           expect(body.articles[0].article_id).to.equal(12);
         }));
+      it('GET status: 200 and returns articles in order (Default by descending)', () => request
+        .get('/api/articles?sort_by=article_id')
+        .expect(200)
+        .then(({ body }) => {
+          // console.log(body.articles);
+          expect(body.articles).to.be.an('array');
+          expect(body.articles[0].article_id).to.equal(12);
+        }));
+      it('GET status: 200 and returns articles in order ascending', () => request
+        .get('/api/articles?sort_by=article_id&order=asc')
+        .expect(200)
+        .then(({ body }) => {
+          // console.log(body.articles);
+          expect(body.articles).to.be.an('array');
+          expect(body.articles[0].article_id).to.equal(1);
+        }));
     });
   });
 });

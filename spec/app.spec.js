@@ -103,6 +103,38 @@ describe('/api', () => {
           expect(body.articles).to.be.an('array');
           expect(body.articles[0].article_id).to.equal(1);
         }));
+      it('GET status: 200 and limits number of articles returned(Default = 10)', () => request
+        .get('/api/articles')
+        .expect(200)
+        .then(({ body }) => {
+          // console.log(body.articles);
+          expect(body.articles).to.have.length(10);
+          expect(body.articles[9].title).to.equal('Seven inspirational thought leaders from Manchester UK');
+        }));
+      it('GET status: 200 and limits number of articles returned by user input', () => request
+        .get('/api/articles?limit=7')
+        .expect(200)
+        .then(({ body }) => {
+          // console.log(body.articles);
+          expect(body.articles).to.have.length(7);
+          expect(body.articles[6].body).to.equal('I was hungry.');
+        }));
+      it('GET status: 200 and limits number of sorted articles (Default = 10)', () => request
+        .get('/api/articles?sort_by=created_at')
+        .expect(200)
+        .then(({ body }) => {
+          console.log(body.articles);
+          expect(body.articles).to.have.length(10);
+          expect(body.articles[9].body).to.equal('Who are we kidding, there is only one, and it\'s Mitch!');
+        }));
+      it('GET status: 200 and limits number of sorted articles by user input', () => request
+        .get('/api/articles?sort_by=created_at&limit=3')
+        .expect(200)
+        .then(({ body }) => {
+          // console.log(body.articles);
+          expect(body.articles).to.have.length(3);
+          expect(body.articles[2].body).to.equal('some gifs');
+        }));
     });
   });
 });

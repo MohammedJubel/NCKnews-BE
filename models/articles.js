@@ -17,3 +17,8 @@ exports.fetchArticles = (conditions, sort_by = 'created_at', order = 'desc', lim
   .orderBy(sort_by, order)
   .limit(limit);
 // .offset(page, limit)
+
+exports.insertArticle = newArticle => connection
+  .insert(newArticle)
+  .into('articles')
+  .returning('*');

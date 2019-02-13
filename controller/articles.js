@@ -1,5 +1,5 @@
 const {
-  fetchArticles,
+  fetchArticles, insertArticle,
 } = require('../models/articles');
 
 exports.getArticles = (req, res, next) => {
@@ -15,6 +15,16 @@ exports.getArticles = (req, res, next) => {
   fetchArticles(conditions, sort_by, order, limit, page)
     .then((articles) => {
       res.status(200).send({ articles });
+    })
+    .catch(err => console.log(err) || next(err));
+};
+
+exports.addArticle = (req, res, next) => {
+  const newArticle = req.body;
+
+  insertArticle(newArticle)
+    .then(([topic]) => {
+      res.status(201).send({ topic });
     })
     .catch(err => console.log(err) || next(err));
 };

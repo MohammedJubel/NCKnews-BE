@@ -123,7 +123,7 @@ describe('/api', () => {
         .get('/api/articles?sort_by=created_at')
         .expect(200)
         .then(({ body }) => {
-          console.log(body.articles);
+          // console.log(body.articles);
           expect(body.articles).to.have.length(10);
           expect(body.articles[9].body).to.equal('Who are we kidding, there is only one, and it\'s Mitch!');
         }));
@@ -135,6 +135,24 @@ describe('/api', () => {
           expect(body.articles).to.have.length(3);
           expect(body.articles[2].body).to.equal('some gifs');
         }));
+      it.only('POST status:201 and accepts an object with title, body, topic and username properties and responds with the posted article', () => {
+        // POST /api/articles
+        const newArticle = {
+          title: 'life hacks', body: 'Does owning a cat guarantee happiness? studies say yes', topic: 'cats', author: 'butter_bridge',
+        };
+        return request
+          .post('/api/articles')
+          .send(newArticle)
+          .expect(201)
+          .then(({ body }) => {
+            // expect(body.topic).to.equal(newArticle);
+            // expect(body.topic).to.be.an('object');
+            // expect(body.topic).to.have.keys('description', 'slug');
+            // expect(body.topic.description).to.eql('Salah!');
+            // expect(body.topic.slug).to.eql('Footballer');
+            console.log(body.topic);
+          });
+      });
     });
   });
 });

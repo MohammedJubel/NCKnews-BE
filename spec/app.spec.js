@@ -76,9 +76,16 @@ describe('/api', () => {
         .get('/api/articles?sort_by=created_at')
         .expect(200)
         .then(({ body }) => {
-          console.log(body.articles[0].created_at);
           expect(body.articles).to.be.an('array');
           expect(body.articles[0].created_at).to.equal('2018-11-15T12:21:54.171Z');
+        }));
+      it('GET status: 200 and returns sorted articles based on users chosen column', () => request
+        .get('/api/articles?sort_by=article_id')
+        .expect(200)
+        .then(({ body }) => {
+          // console.log(body.articles);
+          expect(body.articles).to.be.an('array');
+          expect(body.articles[0].article_id).to.equal(12);
         }));
     });
   });

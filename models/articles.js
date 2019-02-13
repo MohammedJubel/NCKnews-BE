@@ -13,7 +13,7 @@ exports.fetchArticles = (conditions, sort_by = 'created_at', order = 'desc', lim
   .leftJoin('comments', 'comments.article_id', 'articles.article_id')
   .groupBy('articles.article_id')
   .count('comments.comment_id as comment_count')
-  .where(conditions);
-// .orderBy(sort_by, order)
+  .where(conditions)
+  .orderBy(sort_by, order);
 // .limit(limit)
 // .offset(page, limit)

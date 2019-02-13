@@ -7,9 +7,10 @@ exports.getArticles = (req, res, next) => {
     author, topic, sort_by, order, limit, page,
   } = req.query;
   // console.log(req.query, '----------------log');
+  // put author and topic in object as that is required format in knex.where
   const conditions = {};
   if (author) conditions['articles.author'] = author;
-  if (topic) conditions['articles.topic'] = topic;
+  else if (topic) conditions['articles.topic'] = topic;
 
   fetchArticles(conditions, sort_by, order, limit, page)
     .then((articles) => {

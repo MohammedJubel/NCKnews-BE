@@ -3,3 +3,5 @@ knexfile.js
 config
 query.sql
 output.txt
+errors
+notes.js

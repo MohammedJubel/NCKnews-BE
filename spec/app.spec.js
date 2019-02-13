@@ -17,6 +17,20 @@ describe('/api', () => {
     connection.destroy();
   });
 
+  describe('/all routes', () => {
+    it('GET status 404: if non-existent route', () => request.get('/dsfdfssdf')
+      .expect(404)
+      .then((res) => {
+        // console.log(res.body.msg);
+        expect(res.body.msg).to.equal('Page not found');
+        return request.get('/api/topics/fwfwef')
+          .expect(404);
+      })
+      .then((res) => {
+        // console.log(res.body.msg);
+        expect(res.body.msg).to.equal('Page not found');
+      }));
+  });
   describe('/topics', () => {
     // GET / api / topics
     it('GET status:200 and responds with an array of topic objects with correct properties', () => request
@@ -152,6 +166,24 @@ describe('/api', () => {
             expect(body.article.body).to.eql('Does owning a cat guarantee happiness? studies say yes');
             // console.log(body.article);
           });
+      });
+      // GET / api / articles /: article_id
+      describe('GET / api / articles /: article_id', () => {
+        it('GET status:200 and responds with an article object using the article id', () => request
+          .get('/api/articles/5')
+          .expect(200)
+          .then(({ body }) => {
+            expect(body.article).to.be.an('object');
+            expect(body.article).to.contain.keys(
+              'article_id',
+              'title',
+              'topic',
+              'author',
+              'body',
+              'created_at',
+              'votes',
+            );
+          }));
       });
     });
   });

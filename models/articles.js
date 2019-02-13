@@ -7,7 +7,7 @@ const connection = require('../db/connection');
 // GROUP BY articles.article_id;
 
 
-exports.fetchArticles = (conditions, sort_by = 'created_at', order = 'desc', limit = 10, page = 1) => connection
+exports.getArticles = (conditions, sort_by = 'created_at', order = 'desc', limit = 10, page = 1) => connection
   .select('articles.*')
   .from('articles')
   .leftJoin('comments', 'comments.article_id', 'articles.article_id')
@@ -22,3 +22,9 @@ exports.insertArticle = newArticle => connection
   .insert(newArticle)
   .into('articles')
   .returning('*');
+
+
+exports.getArticleById = ({ conditions }) => console.log(conditions)
+  || connection.select('*')
+    .from('articles')
+    .where(conditions);

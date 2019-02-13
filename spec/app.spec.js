@@ -23,12 +23,6 @@ describe('/api', () => {
       .then((res) => {
         // console.log(res.body.msg);
         expect(res.body.msg).to.equal('Page not found');
-        return request.get('/api/topics/fwfwef')
-          .expect(404);
-      })
-      .then((res) => {
-        // console.log(res.body.msg);
-        expect(res.body.msg).to.equal('Page not found');
       }));
   });
   describe('/topics', () => {
@@ -169,20 +163,34 @@ describe('/api', () => {
       });
       // GET / api / articles /: article_id
       describe('GET / api / articles /: article_id', () => {
-        it('GET status:200 and responds with an article object using the article id', () => request
-          .get('/api/articles/5')
+        it('GET status:200 and responds with an article object based on the article id', () => request
+          .get('/api/articles/2')
           .expect(200)
           .then(({ body }) => {
+            // console.log(body);
             expect(body.article).to.be.an('object');
+          }));
+        it('GET status:200 and responds with an article object based on the article id with the correct properties', () => request
+          .get('/api/articles/3')
+          .expect(200)
+          .then(({ body }) => {
+            // console.log(body);
             expect(body.article).to.contain.keys(
               'article_id',
               'title',
+              'body',
+              'votes',
               'topic',
               'author',
-              'body',
               'created_at',
-              'votes',
             );
+          }));
+        it('GET status:400 and responds with an article object based on the article id with the correct properties', () => request
+          .get('/api/articles/efsdsdfs')
+          .expect(400)
+          .then(({ body }) => {
+            // console.log(body, '<-----body');
+            expect(body.msg).to.equal('invalid input syntax for type integer');
           }));
       });
     });

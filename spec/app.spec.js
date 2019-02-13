@@ -135,7 +135,7 @@ describe('/api', () => {
           expect(body.articles).to.have.length(3);
           expect(body.articles[2].body).to.equal('some gifs');
         }));
-      it.only('POST status:201 and accepts an object with title, body, topic and username properties and responds with the posted article', () => {
+      it('POST status:201 and accepts an object with title, body, topic and username properties and responds with the posted article', () => {
         // POST /api/articles
         const newArticle = {
           title: 'life hacks', body: 'Does owning a cat guarantee happiness? studies say yes', topic: 'cats', author: 'butter_bridge',
@@ -145,12 +145,12 @@ describe('/api', () => {
           .send(newArticle)
           .expect(201)
           .then(({ body }) => {
-            // expect(body.topic).to.equal(newArticle);
-            // expect(body.topic).to.be.an('object');
-            // expect(body.topic).to.have.keys('description', 'slug');
-            // expect(body.topic.description).to.eql('Salah!');
-            // expect(body.topic.slug).to.eql('Footballer');
-            console.log(body.topic);
+            expect(body).to.be.an('object');
+            expect(body.article.article_id).to.eql(13);
+            expect(body.article).to.have.keys('title', 'body', 'topic', 'author', 'article_id', 'created_at', 'votes');
+            expect(body.article.title).to.eql('life hacks');
+            expect(body.article.body).to.eql('Does owning a cat guarantee happiness? studies say yes');
+            // console.log(body.article);
           });
       });
     });

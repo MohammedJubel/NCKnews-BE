@@ -23,8 +23,8 @@ exports.addArticle = (req, res, next) => {
   const newArticle = req.body;
 
   insertArticle(newArticle)
-    .then(([topic]) => {
-      res.status(201).send({ topic });
+    .then(([article]) => {
+      res.status(201).send({ article });
     })
     .catch(err => console.log(err) || next(err));
 };

@@ -1,5 +1,5 @@
 const {
-  getArticles, insertArticle, getArticleById,
+  getArticles, insertArticle, getArticleById, patchArticleVote,
 } = require('../models/articles');
 
 exports.sendArticles = (req, res, next) => {
@@ -40,6 +40,19 @@ exports.sendArticleById = (req, res, next) => {
       if (article) res.status(200).send({ article });
       else Promise.reject({ status: 400, msg: 'Article not found' });
       // Promise.reject or next
+    })
+    .catch(next);
+};
+
+
+exports.sendPatchArticle = (req, res, next) => {
+  const { article_id } = req.params;
+  const { inc_votes } = req.body;
+  const conditions = {};
+  if (article_id) conditions['articles.article_id'] = article_id;
+  patchArticleVote(conditions, inc_votes)
+    .then(([article]) => {
+      res.status(200).send({ article });
     })
     .catch(next);
 };

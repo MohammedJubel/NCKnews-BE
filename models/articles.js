@@ -18,6 +18,7 @@ exports.getArticles = (conditions, sort_by = 'created_at', order = 'desc', limit
   .limit(limit);
 // .offset(page, limit)
 
+
 exports.insertArticle = newArticle => connection
   .insert(newArticle)
   .into('articles')
@@ -31,3 +32,10 @@ exports.getArticleById = ({ conditions }) => connection
   .groupBy('articles.article_id')
   .count('comments.comment_id as comment_count')
   .where(conditions);
+
+
+exports.patchArticleVote = (conditions, inc_vote) => connection('articles')
+  .where(conditions)
+  // .where('articles.article_id', '=', article_id)
+  .increment('votes', +inc_vote) // + optional
+  .returning('*');

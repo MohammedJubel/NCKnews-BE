@@ -193,6 +193,35 @@ describe('/api', () => {
             // console.log(body, '<-----body');
             expect(body.msg).to.equal('invalid input syntax for type integer');
           }));
+        describe('PATCH /api/articles/:article_id', () => {
+          it('PATCH status:200 and updates the current article vote property by 1', () => request
+            .patch('/api/articles/2')
+            .send({ inc_votes: 1 })
+            .expect(200)
+            .then(({ body }) => {
+              // console.log(body);
+              expect(body.article).to.be.an('object');
+              expect(body.article.votes).to.equal(1);
+            }));
+          it('PATCH status:200 and decrements the current articles vote property(100) by 100', () => request
+            .patch('/api/articles/1')
+            .send({ inc_votes: -100 })
+            .expect(200)
+            .then(({ body }) => {
+              // console.log(body);
+              expect(body.article).to.be.an('object');
+              expect(body.article.votes).to.equal(0);
+            }));
+          it('PATCH status:200 and decrements the current articles vote property(0) by 100', () => request
+            .patch('/api/articles/3')
+            .send({ inc_votes: -100 })
+            .expect(200)
+            .then(({ body }) => {
+              // console.log(body);
+              expect(body.article).to.be.an('object');
+              expect(body.article.votes).to.equal(-100);
+            }));
+        });
       });
     });
   });

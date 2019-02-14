@@ -289,9 +289,25 @@ describe('/api', () => {
           .get('/api/articles/1/comments?limit=7')
           .expect(200)
           .then(({ body }) => {
-            console.log(body.comments);
+            // console.log(body.comments);
             expect(body.comments).to.have.length(7);
             expect(body.comments[6].body).to.equal('Delicious crackerbreads');
+          }));
+        it('GET status: 200 and returns limited number of comments by page (Default limit = 10, page = 1)', () => request
+          .get('/api/articles/1/comments?page=1')
+          .expect(200)
+          .then(({ body }) => {
+            // console.log(body.comments, '<-----this');
+            expect(body.comments).to.have.length(10);
+            expect(body.comments[9].body).to.equal('Ambidextrous marsupial');
+          }));
+        it('GET status: 200 and returns limited number of comments by page based on user input(Default limit = 5, page = 2)', () => request
+          .get('/api/articles/1/comments?limit=5&page=2')
+          .expect(200)
+          .then(({ body }) => {
+            console.log(body);
+            expect(body.comments).to.have.length(5);
+            expect(body.comments[0].body).to.equal('Lobster pot');
           }));
       });
     });

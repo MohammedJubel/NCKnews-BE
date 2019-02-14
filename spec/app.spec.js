@@ -277,6 +277,22 @@ describe('/api', () => {
             // console.log(body.comments, '-------2nd');
             expect(body.comments[0].comment_id).to.equal(18);
           }));
+        it('GET status: 200 and limits number of articles returned(Default = 10)', () => request
+          .get('/api/articles/1/comments')
+          .expect(200)
+          .then(({ body }) => {
+            // console.log(body.comments);
+            expect(body.comments).to.have.length(10);
+            expect(body.comments[9].body).to.equal('Ambidextrous marsupial');
+          }));
+        it('GET status: 200 and limits number of comments by article_id returned by user input', () => request
+          .get('/api/articles/1/comments?limit=7')
+          .expect(200)
+          .then(({ body }) => {
+            console.log(body.comments);
+            expect(body.comments).to.have.length(7);
+            expect(body.comments[6].body).to.equal('Delicious crackerbreads');
+          }));
       });
     });
   });

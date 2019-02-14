@@ -15,8 +15,12 @@ exports.getArticles = (conditions, sort_by = 'created_at', order = 'desc', limit
   .count('comments.comment_id as comment_count')
   .where(conditions)
   .orderBy(sort_by, order)
-  .limit(limit);
-// .offset(page, limit)
+  .limit(limit)
+  .offset((page - 1) * limit);
+// if page is 1 we are starting at 0 then times by 10 as that is limit
+
+// /api/articles?limit -20
+// default limit = 10
 
 
 exports.insertArticle = newArticle => connection

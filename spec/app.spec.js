@@ -167,7 +167,7 @@ describe('/api', () => {
           .get('/api/articles/7')
           .expect(200)
           .then(({ body }) => {
-            console.log(body);
+            // console.log(body);
             expect(body.article).to.be.an('object');
           }));
         it('GET status:200 and responds with an article object based on the article id with the correct properties', () => request
@@ -223,12 +223,45 @@ describe('/api', () => {
             expect(body.article.votes).to.equal(-100);
           }));
       });
+      // why cant you delete certain articles? i.e 1 and 6?
       describe('DELETE /api/articles/:article_id', () => {
         it('DELETE status:204 and deletes the given article by`article_id. Should have no content', () => request
           .delete('/api/articles/7')
           .expect(204)
           .then(({ body }) => {
+            // console.log(body);
             expect(body).to.not.contain.keys('article');
+          }));
+      });
+      // Does it need to return array of comments?
+      describe('GET /api/articles/:article_id/comments', () => {
+        it('GET status:200 and responds with an array of comments based on the article id with the correct properties', () => request
+          .get('/api/articles/6/comments')
+          .expect(200)
+          .then(({ body }) => {
+            // console.log(body, '<----body');
+            expect(body.comments).to.be.an('array');
+            expect(body.comments[0]).to.contain.keys(
+              'comment_id',
+              'votes',
+              'created_at',
+              'author',
+              'body',
+            );
+          }));
+        it('GET status: 200 and returns sorted comments by article_id(Default by date)', () => request
+          .get('/api/articles/1/comments')
+          .expect(200)
+          .then(({ body }) => {
+            // console.log(body, '--------this');
+            expect(body.comments[0].created_at).to.equal('2016-11-22T12:36:03.389Z');
+          }));
+        it('GET status: 200 and returns sorted comments by article_id based on users sort_by input', () => request
+          .get('/api/articles/1/comments?sort_by=comment_id')
+          .expect(200)
+          .then(({ body }) => {
+            // console.log(body, '--------this');
+            expect(body.comments[0].comment_id).to.equal(18);
           }));
       });
     });

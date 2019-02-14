@@ -39,3 +39,7 @@ exports.patchArticleVote = (conditions, inc_vote) => connection('articles')
   // .where('articles.article_id', '=', article_id)
   .increment('votes', +inc_vote) // + optional
   .returning('*');
+
+exports.removeArticle = conditions => connection('articles')
+  .where(conditions)
+  .del();

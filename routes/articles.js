@@ -1,18 +1,18 @@
 const articlesRouter = require('express').Router();
 const {
-  sendArticles, addArticle, sendArticleById, sendPatchArticle,
+  sendArticles, sendArticle, sendArticleById, sendPatchArticle, deleteArticleById,
 } = require('../controller/articles');
 
 articlesRouter
   .route('/')
   .get(sendArticles)
-  .post(addArticle);
+  .post(sendArticle);
 
 articlesRouter
   .route('/:article_id')
   .get(sendArticleById)
-  .patch(sendPatchArticle);
-// .delete(deleteArticleById)
+  .patch(sendPatchArticle)
+  .delete(deleteArticleById);
 // .all(handle405);
 
 

@@ -1,5 +1,5 @@
 const {
-  getArticles, insertArticle, getArticleById, patchArticleVote,
+  getArticles, insertArticle, getArticleById, patchArticleVote, removeArticle,
 } = require('../models/articles');
 
 exports.sendArticles = (req, res, next) => {
@@ -19,7 +19,7 @@ exports.sendArticles = (req, res, next) => {
     .catch(err => console.log(err) || next(err));
 };
 
-exports.addArticle = (req, res, next) => {
+exports.sendArticle = (req, res, next) => {
   const newArticle = req.body;
 
   insertArticle(newArticle)
@@ -54,5 +54,15 @@ exports.sendPatchArticle = (req, res, next) => {
     .then(([article]) => {
       res.status(200).send({ article });
     })
+    .catch(next);
+};
+
+
+exports.deleteArticleById = (req, res, next) => {
+  const { article_id } = req.params;
+  const conditions = {};
+  if (article_id) conditions['articles.article_id'] = article_id;
+  removeArticle(conditions)
+    .then(deleteArticle => res.status(204).send({ deleteArticle }))
     .catch(next);
 };

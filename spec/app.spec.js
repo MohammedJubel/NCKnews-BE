@@ -164,10 +164,10 @@ describe('/api', () => {
       // GET / api / articles /: article_id
       describe('GET / api / articles /: article_id', () => {
         it('GET status:200 and responds with an article object based on the article id', () => request
-          .get('/api/articles/2')
+          .get('/api/articles/7')
           .expect(200)
           .then(({ body }) => {
-            // console.log(body);
+            console.log(body);
             expect(body.article).to.be.an('object');
           }));
         it('GET status:200 and responds with an article object based on the article id with the correct properties', () => request
@@ -193,35 +193,43 @@ describe('/api', () => {
             // console.log(body, '<-----body');
             expect(body.msg).to.equal('invalid input syntax for type integer');
           }));
-        describe('PATCH /api/articles/:article_id', () => {
-          it('PATCH status:200 and updates the current article vote property by 1', () => request
-            .patch('/api/articles/2')
-            .send({ inc_votes: 1 })
-            .expect(200)
-            .then(({ body }) => {
-              // console.log(body);
-              expect(body.article).to.be.an('object');
-              expect(body.article.votes).to.equal(1);
-            }));
-          it('PATCH status:200 and decrements the current articles vote property(100) by 100', () => request
-            .patch('/api/articles/1')
-            .send({ inc_votes: -100 })
-            .expect(200)
-            .then(({ body }) => {
-              // console.log(body);
-              expect(body.article).to.be.an('object');
-              expect(body.article.votes).to.equal(0);
-            }));
-          it('PATCH status:200 and decrements the current articles vote property(0) by 100', () => request
-            .patch('/api/articles/3')
-            .send({ inc_votes: -100 })
-            .expect(200)
-            .then(({ body }) => {
-              // console.log(body);
-              expect(body.article).to.be.an('object');
-              expect(body.article.votes).to.equal(-100);
-            }));
-        });
+      });
+      describe('PATCH /api/articles/:article_id', () => {
+        it('PATCH status:200 and updates the current article vote property by 1', () => request
+          .patch('/api/articles/2')
+          .send({ inc_votes: 1 })
+          .expect(200)
+          .then(({ body }) => {
+            // console.log(body);
+            expect(body.article).to.be.an('object');
+            expect(body.article.votes).to.equal(1);
+          }));
+        it('PATCH status:200 and decrements the current articles vote property(100) by 100', () => request
+          .patch('/api/articles/1')
+          .send({ inc_votes: -100 })
+          .expect(200)
+          .then(({ body }) => {
+            // console.log(body);
+            expect(body.article).to.be.an('object');
+            expect(body.article.votes).to.equal(0);
+          }));
+        it('PATCH status:200 and decrements the current articles vote property(0) by 100', () => request
+          .patch('/api/articles/3')
+          .send({ inc_votes: -100 })
+          .expect(200)
+          .then(({ body }) => {
+            // console.log(body);
+            expect(body.article).to.be.an('object');
+            expect(body.article.votes).to.equal(-100);
+          }));
+      });
+      describe('DELETE /api/articles/:article_id', () => {
+        it('DELETE status:204 and deletes the given article by`article_id. Should have no content', () => request
+          .delete('/api/articles/7')
+          .expect(204)
+          .then(({ body }) => {
+            expect(body).to.not.contain.keys('article');
+          }));
       });
     });
   });

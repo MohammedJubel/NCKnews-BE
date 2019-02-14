@@ -263,6 +263,20 @@ describe('/api', () => {
             // console.log(body, '--------this');
             expect(body.comments[0].comment_id).to.equal(18);
           }));
+        it('GET status: 200 and returns comments by article_id in order (Default by descending', () => request
+          .get('/api/articles/1/comments')
+          .expect(200)
+          .then(({ body }) => {
+            // console.log(body.comments, '-------1nd');
+            expect(body.comments[0].comment_id).to.equal(2);
+          }));
+        it('GET status: 200 and returns comments by article_id in order ascending', () => request
+          .get('/api/articles/1/comments?order=asc')
+          .expect(200)
+          .then(({ body }) => {
+            // console.log(body.comments, '-------2nd');
+            expect(body.comments[0].comment_id).to.equal(18);
+          }));
       });
     });
   });

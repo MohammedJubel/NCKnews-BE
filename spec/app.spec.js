@@ -344,9 +344,11 @@ describe('/api', () => {
             .then(({ body }) => {
               expect(body.comment).to.be.an('object');
             }));
-          it.only('DELETE / status:204 (No Content) deletes the comment object with comment_id', () => request
-            .delete('/api/comments/8')
-            .expect(204));
+          describe('DELETE /api/comments/:comment_id', () => {
+            it('Delete the given comment by Comment_id', () => request
+              .delete('/api/comments/7')
+              .expect(204));
+          });
         });
       });
     });

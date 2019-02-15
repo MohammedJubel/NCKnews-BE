@@ -345,9 +345,23 @@ describe('/api', () => {
               expect(body.comment).to.be.an('object');
             }));
           describe('DELETE /api/comments/:comment_id', () => {
-            it('Delete the given comment by Comment_id', () => request
+            it('DELETE status: 204 and deletes the given comment by Comment_id', () => request
               .delete('/api/comments/7')
               .expect(204));
+          });
+          describe('GET /api/users', () => {
+            it.only('GET status:200 responds with array of user objects', () => request
+              .get('/api/users')
+              .expect(200)
+              .then(({ body }) => {
+                expect(body.users).to.be.an('array');
+              }));
+            it.only('GET status:200 responds with array of user objects with the correct properties', () => request
+              .get('/api/users')
+              .expect(200)
+              .then(({ body }) => {
+                expect(body.users[0]).to.contain.keys('username', 'avatar_url', 'name');
+              }));
           });
         });
       });

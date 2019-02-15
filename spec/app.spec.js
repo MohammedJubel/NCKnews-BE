@@ -309,6 +309,25 @@ describe('/api', () => {
             expect(body.comments).to.have.length(5);
             expect(body.comments[0].body).to.equal('Lobster pot');
           }));
+        describe.only('POST /api/articles/:article_id/comments', () => {
+          it('POST / status:201 responds with posted comment object', () => request
+            .post('/api/articles/5/comments')
+            .send({
+              author: 'butter_bridge', body: 'Hakuna Matata',
+            })
+            .expect(201)
+            .then(({ body }) => {
+              expect(body.comment.body).to.eql('Hakuna Matata');
+              expect(body.comment).to.have.keys(
+                'comment_id',
+                'author',
+                'article_id',
+                'votes',
+                'body',
+                'created_at',
+              );
+            }));
+        });
       });
     });
   });

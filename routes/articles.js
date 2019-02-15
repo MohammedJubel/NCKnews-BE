@@ -3,7 +3,7 @@ const {
   sendArticles, sendArticle, sendArticleById, sendPatchArticle, deleteArticleById,
 } = require('../controller/articles');
 const {
-  sendCommentsByArticleId, // sendNewCommentByArticleId,
+  sendCommentsById, sendNewCommentById,
 } = require('../controller/comments');
 
 
@@ -22,6 +22,7 @@ articlesRouter
 
 articlesRouter
   .route('/:article_id/comments')
-  .get(sendCommentsByArticleId);
+  .get(sendCommentsById)
+  .post(sendNewCommentById);
 
 module.exports = articlesRouter;

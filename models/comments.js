@@ -9,3 +9,8 @@ exports.getCommentsByArticleId = ({
   .orderBy(sort_by, order)
   .limit(limit)
   .offset((page - 1) * limit);
+
+exports.getCommentByArticleId = newComment => connection
+  .insert(newComment)
+  .into('comments')
+  .returning('*');

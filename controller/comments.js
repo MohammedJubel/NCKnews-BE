@@ -1,9 +1,9 @@
 const {
-  getCommentsByArticleId,
+  getCommentsByArticleId, getCommentByArticleId,
 } = require('../models/comments');
 
 
-exports.sendCommentsByArticleId = (req, res, next) => {
+exports.sendCommentsById = (req, res, next) => {
   const {
     sort_by, order, limit, page,
   } = req.query;
@@ -20,3 +20,34 @@ exports.sendCommentsByArticleId = (req, res, next) => {
     })
     .catch(next);
 };
+exports.sendNewCommentById = (req, res, next) => {
+  const { article_id } = req.params;
+  const newComment = req.body;
+
+  getCommentByArticleId({ article_id, ...newComment })
+    .then(([comment]) => res.status(201).send({ comment }))
+    .catch((err) => {
+      next(err);
+    });
+};
+
+// exports.sendArticle = (req, res, next) => {
+//   const newArticle = req.body;
+
+//   insertArticle(newArticle)
+//     .then(([article]) => {
+//       res.status(201).send({ article });
+//     })
+//     .catch(err => console.log(err) || next(err));
+// };
+
+
+// exports.sendArticle = (req, res, next) => {
+//   const newArticle = req.body;
+
+//   getCommentByArticleId(newArticle)
+//     .then(([article]) => {
+//       res.status(201).send({ article });
+//     })
+//     .catch(err => console.log(err) || next(err));
+// };

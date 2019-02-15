@@ -14,7 +14,6 @@ exports.sendCommentsById = (req, res, next) => {
     conditions, sort_by, order, limit, page,
   })
     .then((comments) => {
-      // console.log(comments, '<---comments');
       if (comments) res.status(200).send({ comments });
       else return Promise.reject({ status: 400, msg: 'Article not found' });
     })
@@ -34,7 +33,6 @@ exports.sendNewCommentById = (req, res, next) => {
 exports.sendPatchComment = (req, res, next) => {
   const { comment_id } = req.params;
   const { inc_votes } = req.body;
-  // console.log(req, '<---req');
   const conditions = {};
   if (comment_id) conditions['comments.comment_id'] = comment_id;
   patchCommentVote(conditions, inc_votes)

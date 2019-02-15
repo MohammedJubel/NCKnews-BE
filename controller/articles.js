@@ -6,8 +6,6 @@ exports.sendArticles = (req, res, next) => {
   const {
     author, topic, sort_by, order, limit, page,
   } = req.query;
-  // console.log(req.query, '----------------log');
-  // put author and topic in object as that is required format in knex.where
   const conditions = {};
   if (author) conditions['articles.author'] = author;
   else if (topic) conditions['articles.topic'] = topic;
@@ -26,20 +24,17 @@ exports.sendArticle = (req, res, next) => {
     .then(([article]) => {
       res.status(201).send({ article });
     })
-    .catch(err => console.log(err) || next(err));
+    .catch(next);
 };
 
 exports.sendArticleById = (req, res, next) => {
   const { article_id } = req.params;
-  // console.log(article_id, '<--- id');
   const conditions = {};
   if (article_id) conditions['articles.article_id'] = article_id;
   getArticleById({ conditions })
     .then(([article]) => {
-      // console.log(article, '<-----controller');
       if (article) res.status(200).send({ article });
       else Promise.reject({ status: 400, msg: 'Article not found' });
-      // Promise.reject or next
     })
     .catch(next);
 };
@@ -56,7 +51,6 @@ exports.sendPatchArticle = (req, res, next) => {
     })
     .catch(next);
 };
-
 
 exports.deleteArticleById = (req, res, next) => {
   const { article_id } = req.params;

@@ -18,8 +18,7 @@ exports.getCommentByArticleId = newComment => connection
 
 exports.patchCommentVote = (conditions, inc_vote) => connection('comments')
   .where(conditions)
-  // .where('articles.article_id', '=', article_id)
-  .increment('votes', +inc_vote) // + optional
+  .increment('votes', inc_vote)
   .returning('*');
 
 

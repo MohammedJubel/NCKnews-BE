@@ -6,7 +6,7 @@ exports.getTopics = (req, res, next) => fetchTopics()
   .then((topics) => {
     res.status(200).send({ topics });
   })
-  .catch(err => console.log(err) || next(err));
+  .catch(next);
 
 exports.addTopics = (req, res, next) => {
   const newTopic = req.body;
@@ -15,5 +15,5 @@ exports.addTopics = (req, res, next) => {
     .then(([topic]) => {
       res.status(201).send({ topic });
     })
-    .catch(err => console.log(err) || next(err));
+    .catch(next);
 };

@@ -1,12 +1,5 @@
 const connection = require('../db/connection');
 
-
-// SELECT articles.article_id, COUNT(comments.comment_id) AS comment_count
-// FROM articles
-// LEFT JOIN comments ON comments.article_id = articles.article_id
-// GROUP BY articles.article_id;
-
-
 exports.getArticles = (conditions, sort_by = 'created_at', order = 'desc', limit = 10, page = 1) => connection
   .select('articles.*')
   .from('articles')

@@ -1,5 +1,5 @@
 const {
-  getCommentsByArticleId, getCommentByArticleId,
+  getCommentsByArticleId, getCommentByArticleId, patchCommentVote, removeComment,
 } = require('../models/comments');
 
 
@@ -31,23 +31,26 @@ exports.sendNewCommentById = (req, res, next) => {
     });
 };
 
-// exports.sendArticle = (req, res, next) => {
-//   const newArticle = req.body;
+exports.sendPatchComment = (req, res, next) => {
+  const { comment_id } = req.params;
+  const { inc_votes } = req.body;
+  // console.log(req, '<---req');
+  const conditions = {};
+  if (comment_id) conditions['comments.comment_id'] = comment_id;
+  patchCommentVote(conditions, inc_votes)
+    .then(([comment]) => {
+      res.status(200).send({ comment });
+    })
+    .catch(next);
+};
 
-//   insertArticle(newArticle)
-//     .then(([article]) => {
-//       res.status(201).send({ article });
-//     })
-//     .catch(err => console.log(err) || next(err));
-// };
-
-
-// exports.sendArticle = (req, res, next) => {
-//   const newArticle = req.body;
-
-//   getCommentByArticleId(newArticle)
-//     .then(([article]) => {
-//       res.status(201).send({ article });
-//     })
-//     .catch(err => console.log(err) || next(err));
-// };
+exports.deleteComment = (req, res, next) => {
+  const { comment_id } = req.params;
+  const conditions = {};
+  if (comment_id) conditions['comments.comment_id'] = comment_id;
+  removeComment(conditions)
+    .then(() => {
+      res.status(204).send({});
+    })
+    .catch(next);
+};

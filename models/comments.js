@@ -14,3 +14,17 @@ exports.getCommentByArticleId = newComment => connection
   .insert(newComment)
   .into('comments')
   .returning('*');
+
+
+exports.patchCommentVote = (conditions, inc_vote) => connection('comments')
+  .where(conditions)
+  // .where('articles.article_id', '=', article_id)
+  .increment('votes', +inc_vote) // + optional
+  .returning('*');
+
+
+exports.removeComment = conditions => connection
+  .select('comments.*')
+  .from('comments')
+  .where(conditions)
+  .del();

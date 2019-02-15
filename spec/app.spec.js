@@ -309,7 +309,7 @@ describe('/api', () => {
             expect(body.comments).to.have.length(5);
             expect(body.comments[0].body).to.equal('Lobster pot');
           }));
-        describe.only('POST /api/articles/:article_id/comments', () => {
+        describe('POST /api/articles/:article_id/comments', () => {
           it('POST / status:201 responds with posted comment object', () => request
             .post('/api/articles/5/comments')
             .send({
@@ -327,6 +327,26 @@ describe('/api', () => {
                 'created_at',
               );
             }));
+        });
+        describe('PATCH /api/comments/:comment_id', () => {
+          it('PATCH status: 200 and increments the current articles vote property by 1', () => request
+            .patch('/api/comments/2')
+            .send({ inc_votes: 1 })
+            .expect(200)
+            .then(({ body }) => {
+              expect(body.comment).to.be.an('object');
+              // expect(body.comment.votes).to.equal(15);
+            }));
+          it('PATCH status: 200 and decrements the current articles vote property by 1', () => request
+            .patch('/api/comments/2')
+            .send({ inc_votes: -1 })
+            .expect(200)
+            .then(({ body }) => {
+              expect(body.comment).to.be.an('object');
+            }));
+          it.only('DELETE / status:204 (No Content) deletes the comment object with comment_id', () => request
+            .delete('/api/comments/8')
+            .expect(204));
         });
       });
     });

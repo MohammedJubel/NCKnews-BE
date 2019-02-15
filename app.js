@@ -18,6 +18,6 @@ app.all('/*', (req, res) => {
 app.use(handle400); // bad request - i.e. If we have an end-point `api/films/:film_id` and a client makes a request of `api/films/abc
 app.use(handle404);// This could be that the param ID is correctly formed but does not exist, or the route does not exist at all
 app.use(handle422); // unprocessable entity - i.e. unique key violations
-app.use(handle500); // When the route exists, but cannot be accessed with that method.I.e.doing a POST on`/articles/:article_id`
+app.use(handle500); // This handles all errors which haven't been identified by the above like a catchAll
 
 module.exports = app;

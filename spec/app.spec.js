@@ -63,6 +63,18 @@ describe('/api', () => {
             expect(body.msg).to.equal('violates not null violation');
           });
       });
+      describe('422 error - null description', () => {
+        it.only('POST status:422  when client send a body with a duplicate slug', () => {
+          const newTopic = { slug: 'cats', description: 'Salah!' };
+          return request
+            .post('/api/topics')
+            .send(newTopic)
+            .expect(422)
+            .then((res) => {
+              expect(res.body.msg).to.equal('violates not unique key violation');
+            });
+        });
+      });
       describe('/articles', () => {
         // GET / api / articles
         it('GET status:200 and responds with an array of article objects with correct properties', () => request
@@ -153,6 +165,7 @@ describe('/api', () => {
             expect(body.articles).to.have.length(3);
             expect(body.articles[2].body).to.equal('some gifs');
           }));
+
         it('POST status:201 and accepts an object with title, body, topic and username properties and responds with the posted article', () => {
           // POST /api/articles
           const newArticle = {

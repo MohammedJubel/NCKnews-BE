@@ -8,13 +8,13 @@ exports.sendArticles = (req, res, next) => {
   } = req.query;
   const conditions = {};
   if (author) conditions['articles.author'] = author;
-  else if (topic) conditions['articles.topic'] = topic;
+  if (topic) conditions['articles.topic'] = topic;
 
   getArticles(conditions, sort_by, order, limit, page)
     .then((articles) => {
       res.status(200).send({ articles });
     })
-    .catch(err => console.log(err) || next(err));
+    .catch(next);
 };
 
 exports.sendArticle = (req, res, next) => {
@@ -38,7 +38,6 @@ exports.sendArticleById = (req, res, next) => {
     })
     .catch(next);
 };
-
 
 exports.sendPatchArticle = (req, res, next) => {
   const { article_id } = req.params;

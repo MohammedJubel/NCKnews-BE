@@ -6,7 +6,6 @@ const {
 
 
 commentsRouter.route('/:comment_id')
-
   .patch(sendPatchComment)
   .delete(deleteComment);
 

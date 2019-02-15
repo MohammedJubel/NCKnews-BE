@@ -3,7 +3,9 @@ const {
   getTopics, addTopics,
 } = require('../controller/topics');
 
-topicsRouter.route('/').get(getTopics).post(addTopics);
+topicsRouter.route('/')
+  .get(getTopics)
+  .post(addTopics);
 
 
 module.exports = topicsRouter;

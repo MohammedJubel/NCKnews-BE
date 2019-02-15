@@ -6,3 +6,8 @@ exports.getUsers = () => connection
 
 exports.insertUser = user => connection
   .insert(user).into('users').returning('*');
+
+exports.getUserByUsername = conditions => connection
+  .select('users.*')
+  .from('users')
+  .where(conditions);

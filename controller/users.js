@@ -11,3 +11,14 @@ exports.sendUser = (req, res, next) => {
     .then(([user]) => res.status(201).send({ user }))
     .catch(next);
 };
+
+exports.sendUserByUsername = (req, res, next) => {
+  const { username } = req.params;
+  const conditions = {};
+  if (username) conditions['users.username'] = username;
+  getUserByUsername(conditions)
+    .then(([user]) => {
+      res.status(200).send({ user });
+    })
+    .catch(next);
+};

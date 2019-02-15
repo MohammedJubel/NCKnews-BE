@@ -1,7 +1,13 @@
-const { getUsers, addUser, getUserByUsername } = require('../models/users');
+const { getUsers, insertUser, getUserByUsername } = require('../models/users');
 
 exports.sendUsers = (req, res, next) => {
   getUsers()
     .then(users => res.status(200).send({ users }))
+    .catch(next);
+};
+
+exports.sendUser = (req, res, next) => {
+  insertUser(req.body)
+    .then(([user]) => res.status(201).send({ user }))
     .catch(next);
 };

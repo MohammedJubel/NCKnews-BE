@@ -1,8 +1,8 @@
 const usersRouter = require('express').Router();
-const { sendUsers, postUser, fetchUserByUsername } = require('../controller/users');
+const { sendUsers, sendUser, fetchUserByUsername } = require('../controller/users');
 
 usersRouter.route('/')
-  .get(sendUsers);
-
+  .get(sendUsers)
+  .post(sendUser);
 
 module.exports = usersRouter;

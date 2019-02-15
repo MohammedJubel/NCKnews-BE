@@ -305,7 +305,7 @@ describe('/api', () => {
           .get('/api/articles/1/comments?limit=5&page=2')
           .expect(200)
           .then(({ body }) => {
-            console.log(body);
+            // console.log(body);
             expect(body.comments).to.have.length(5);
             expect(body.comments[0].body).to.equal('Lobster pot');
           }));
@@ -350,17 +350,38 @@ describe('/api', () => {
               .expect(204));
           });
           describe('GET /api/users', () => {
-            it.only('GET status:200 responds with array of user objects', () => request
+            it('GET status:200 responds with array of user objects', () => request
               .get('/api/users')
               .expect(200)
               .then(({ body }) => {
                 expect(body.users).to.be.an('array');
               }));
-            it.only('GET status:200 responds with array of user objects with the correct properties', () => request
+            it('GET status:200 responds with array of user objects with the correct properties', () => request
               .get('/api/users')
               .expect(200)
               .then(({ body }) => {
+                // console.log(body);
                 expect(body.users[0]).to.contain.keys('username', 'avatar_url', 'name');
+              }));
+          });
+          describe.only('POST /api/users', () => {
+            it('POST status:201 and responds with posted user object', () => request
+              .post('/api/users')
+              .send({ username: 'Pokemaster', avatar_url: 'https://cdn.bulbagarden.net/upload/5/54/Ash_SM.png', name: 'Ash Ketchup' })
+              .expect(201)
+              .then(({ body }) => {
+                expect(body.user).to.be.an('object');
+              }));
+            it('POST status:201 and responds with posted user object with the correct properties', () => request
+              .post('/api/users')
+              .send({ username: 'Pokemaster', avatar_url: 'https://cdn.bulbagarden.net/upload/5/54/Ash_SM.png', name: 'Ash Ketchup' })
+              .expect(201)
+              .then(({ body }) => {
+                expect(body.user).to.eql({
+                  username: 'Pokemaster',
+                  avatar_url: 'https://cdn.bulbagarden.net/upload/5/54/Ash_SM.png',
+                  name: 'Ash Ketchup',
+                });
               }));
           });
         });

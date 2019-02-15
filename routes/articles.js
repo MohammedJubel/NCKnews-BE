@@ -5,24 +5,27 @@ const {
 const {
   sendCommentsById, sendNewCommentById,
 } = require('../controller/comments');
+const { handle405 } = require('../errors');
 
 
 articlesRouter
   .route('/')
   .get(sendArticles)
-  .post(sendArticle);
-// .all(handle405);
+  .post(sendArticle)
+  .all(handle405);
 
 articlesRouter
   .route('/:article_id')
   .get(sendArticleById)
   .patch(sendPatchArticle)
-  .delete(deleteArticleById);
+  .delete(deleteArticleById)
+  .all(handle405);
 
 
 articlesRouter
   .route('/:article_id/comments')
   .get(sendCommentsById)
-  .post(sendNewCommentById);
+  .post(sendNewCommentById)
+  .all(handle405);
 
 module.exports = articlesRouter;

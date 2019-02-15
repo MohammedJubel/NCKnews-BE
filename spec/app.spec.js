@@ -201,7 +201,7 @@ describe('/api', () => {
           .get('/api/articles/efsdsdfs')
           .expect(400)
           .then(({ body }) => {
-            // console.log(body, '<-----body');
+            console.log(body, '<-----body');
             expect(body.msg).to.equal('invalid input syntax for type integer');
           }));
       });

@@ -16,10 +16,8 @@ exports.handle404 = (err, req, res, next) => {
   } else next(err);
 };
 
-exports.handle405 = (err, req, res, next) => {
-  if (err.status === 404) {
-    res.status(405).send(err);
-  } else next(err);
+exports.handle405 = (req, res, next) => {
+  res.status(405).send({ msg: 'method not allowed' });
 };
 
 exports.handle422 = (err, req, res, next) => {
@@ -29,7 +27,5 @@ exports.handle422 = (err, req, res, next) => {
 };
 
 exports.handle500 = (err, req, res, next) => {
-  if (err.status === 500) {
-    res.status(500).send(err);
-  } else next(err);
+  res.status(500).send(err);
 };

@@ -24,6 +24,25 @@ describe('/api', () => {
         // console.log(res.body.msg);
         expect(res.body.msg).to.equal('Page not found');
       }));
+    describe('/api', () => {
+      // GET / api / topics
+      it.only('GET status:200 and responds with an array of topic objects with correct properties', () => request
+        .get('/api/')
+        .expect(200)
+        .then((res) => {
+          // console.log(res.body);
+          expect(res.body.endPointsObj).to.be.have.all.keys(
+            '/api',
+            '/api/topics',
+            '/api/articles',
+            '/api/articles/:article_id',
+            '/api/articles/:article_id/comments',
+            '/api/comments/:comment_id',
+            '/api/users',
+            '/api/users/:username',
+          );
+        }));
+    });
   });
   describe('/topics', () => {
     // GET / api / topics

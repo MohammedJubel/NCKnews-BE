@@ -10,7 +10,14 @@ exports.sendArticles = (req, res, next) => {
   if (author) conditions['articles.author'] = author;
   if (topic) conditions['articles.topic'] = topic;
 
-  getArticles(conditions, sort_by, order, limit, page)
+  const validSorts = ['created_at'];
+
+  let sortQuery = ['created_at', 'article_id', 'title', 'votes', 'topic', 'author', 'body'];
+  if (validSorts.includes(sort_by)) {
+    sortQuery = sort_by;
+  }
+
+  getArticles(conditions, sortQuery, order, limit, page)
     .then((articles) => {
       res.status(200).send({ articles });
     })

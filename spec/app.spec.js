@@ -53,7 +53,7 @@ describe('/api', () => {
         });
     });
     describe('400 error - null description', () => {
-      it('POST status:400 and gives error when description property is null (i.e - missing)', () => {
+      it('Returns 400: when description property is null (i.e - missing)', () => {
         const newTopic = { slug: 'Salah!' };
         return request
           .post('/api/topics')
@@ -64,7 +64,7 @@ describe('/api', () => {
           });
       });
       describe('422 error - null description', () => {
-        it.only('POST status:422  when client send a body with a duplicate slug', () => {
+        it('Returns status 422: when client send a body with a duplicate slug', () => {
           const newTopic = { slug: 'cats', description: 'Salah!' };
           return request
             .post('/api/topics')
@@ -74,6 +74,14 @@ describe('/api', () => {
               expect(res.body.msg).to.equal('violates not unique key violation');
             });
         });
+      });
+      describe('405 error - invalid request for method endpoint', () => {
+        it('Returns status 405: when doing a DELETE method that is not allowed on the endpoint', () => request
+          .delete('/api/topics')
+          .expect(405)
+          .then(({ body }) => {
+            expect(body.msg).to.equal('Method not allowed');
+          }));
       });
       describe('/articles', () => {
         // GET / api / articles
@@ -85,6 +93,14 @@ describe('/api', () => {
             expect(body.articles).to.be.an('array');
             expect(body.articles[0]).to.contain.keys('article_id', 'title', 'body', 'votes', 'topic', 'author', 'created_at', 'comment_count');
           }));
+        describe('405 error - invalid request for method endpoint', () => {
+          it('Returns status 405: when doing a DELETE method that is not allowed on the endpoint', () => request
+            .delete('/api/articles')
+            .expect(405)
+            .then(({ body }) => {
+              expect(body.msg).to.equal('Method not allowed');
+            }));
+        });
         it('GET status:200 and responds with array of article filtered by username', () => request
           .get('/api/articles?author=rogersop')
           .expect(200)
@@ -121,11 +137,11 @@ describe('/api', () => {
           .get('/api/articles?sort_by=article_id')
           .expect(200)
           .then(({ body }) => {
-            // console.log(body.articles);
+            // console.log(body.articles, '<---A');
             expect(body.articles).to.be.an('array');
             expect(body.articles[0].article_id).to.equal(12);
           }));
-        it('GET status: 200 and returns articles in order ascending', () => request
+        it.only('GET status: 200 and returns articles in order ascending', () => request
           .get('/api/articles?sort_by=article_id&order=asc')
           .expect(200)
           .then(({ body }) => {
@@ -137,17 +153,15 @@ describe('/api', () => {
           .get('/api/articles')
           .expect(200)
           .then(({ body }) => {
-            // console.log(body.articles);
             expect(body.articles).to.have.length(10);
-            expect(body.articles[9].title).to.equal('Seven inspirational thought leaders from Manchester UK');
+            expect(body.articles[9].title).to.equal('Eight pug gifs that remind me of mitch');
           }));
         it('GET status: 200 and limits number of articles returned by user input', () => request
           .get('/api/articles?limit=7')
           .expect(200)
           .then(({ body }) => {
-            // console.log(body.articles);
             expect(body.articles).to.have.length(7);
-            expect(body.articles[6].body).to.equal('I was hungry.');
+            expect(body.articles[6].body).to.equal('Delicious tin of cat food');
           }));
         it('GET status: 200 and limits number of sorted articles (Default = 10)', () => request
           .get('/api/articles?sort_by=created_at')
@@ -214,7 +228,7 @@ describe('/api', () => {
           .get('/api/articles/efsdsdfs')
           .expect(400)
           .then(({ body }) => {
-            console.log(body, '<-----body');
+            // console.log(body, '<-----body');
             expect(body.msg).to.equal('invalid input syntax for type integer');
           }));
       });

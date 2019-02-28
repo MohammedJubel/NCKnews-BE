@@ -22,12 +22,12 @@ exports.handle404 = (err, req, res, next) => {
 
 
 exports.handle405 = (req, res, next) => {
-  res.status(405).send({ msg: 'method not allowed' });
+  res.status(405).send({ msg: 'Method not allowed' });
 };
 
 exports.handle422 = (err, req, res, next) => {
   const codes = {
-
+    23503: 'Unique Key Violation!. Request cannot be processed',
     23505: 'violates not unique key violation',
   };
   if (codes[err.code]) res.status(422).send({ msg: codes[err.code] });

@@ -3,21 +3,22 @@ const {
 } = require('../models/articles');
 
 exports.sendArticles = (req, res, next) => {
-  const {
+  let {
     author, topic, sort_by, order, limit, page,
   } = req.query;
   const conditions = {};
   if (author) conditions['articles.author'] = author;
   if (topic) conditions['articles.topic'] = topic;
 
-  const validSorts = ['created_at'];
+  const validSorts = [sort_by];
 
-  let sortQuery = ['created_at', 'article_id', 'title', 'votes', 'topic', 'author', 'body'];
-  if (validSorts.includes(sort_by)) {
-    sortQuery = sort_by;
+  const sortQuery = ['created_at', 'article_id', 'title', 'votes', 'topic', 'author', 'body'];
+  if (sortQuery.includes(sort_by)) {
+    sort_by = validSorts;
   }
 
-  getArticles(conditions, sortQuery, order, limit, page)
+
+  getArticles(conditions, sort_by, order, limit, page)
     .then((articles) => {
       res.status(200).send({ articles });
     })

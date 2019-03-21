@@ -26,7 +26,7 @@ describe('/api', () => {
       }));
     describe('/api', () => {
       // GET / api / topics
-      it.only('GET status:200 and responds with an array of topic objects with correct properties', () => request
+      it('GET status:200 and responds with an array of topic objects with correct properties', () => request
         .get('/api/')
         .expect(200)
         .then((res) => {
@@ -160,7 +160,7 @@ describe('/api', () => {
             expect(body.articles).to.be.an('array');
             expect(body.articles[0].article_id).to.equal(12);
           }));
-        it.only('GET status: 200 and returns articles in order ascending', () => request
+        it('GET status: 200 and returns articles in order ascending', () => request
           .get('/api/articles?sort_by=article_id&order=asc')
           .expect(200)
           .then(({ body }) => {
@@ -173,14 +173,15 @@ describe('/api', () => {
           .expect(200)
           .then(({ body }) => {
             expect(body.articles).to.have.length(10);
-            expect(body.articles[9].title).to.equal('Eight pug gifs that remind me of mitch');
+            expect(body.articles[9].title).to.equal('Seven inspirational thought leaders from Manchester UK');
           }));
         it('GET status: 200 and limits number of articles returned by user input', () => request
           .get('/api/articles?limit=7')
           .expect(200)
           .then(({ body }) => {
+            console.log(body.articles);
             expect(body.articles).to.have.length(7);
-            expect(body.articles[6].body).to.equal('Delicious tin of cat food');
+            expect(body.articles[6].body).to.equal('I was hungry.');
           }));
         it('GET status: 200 and limits number of sorted articles (Default = 10)', () => request
           .get('/api/articles?sort_by=created_at')
@@ -214,7 +215,7 @@ describe('/api', () => {
               expect(body.article).to.have.keys('title', 'body', 'topic', 'author', 'article_id', 'created_at', 'votes');
               expect(body.article.title).to.eql('latest discovery');
               expect(body.article.body).to.eql('Does owning a cat guarantee happiness? studies say yes');
-              // console.log(body.article);
+              console.log(body.article, 'hello');
             });
         });
       });
